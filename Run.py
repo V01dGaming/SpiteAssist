@@ -11,7 +11,7 @@ Restartoptions = ["restart", "please restart", "restart please"]
 Crunchyrolloptions = ["open crunchyroll", "open my anime", "open anime", "please open crunchyroll", "please open my anime", "please open anime", "open crunchyroll please", "open my anime please", "open anime please"]
 Internetoptions = ["open internet", "open the internet", "open chrome", "open the browser", "open the web", "open browser", "open web", "please open internet", "please open the internet", "please open chrome", "please open the browser", "please open the web", "please open browser", "please open web", "open internet please", "open the internet please", "open chrome please", "open the browser please", "open the web please", "open browser please", "open web please"]
 Shutdownoptions = ["shut down", "shutdown", "power off", "turn off", "power down", "terminate", "shut down please", "shutdown please", "power off please", "turn off please", "power down please", "terminate please", "please shut down", "please shutdown", "please power off", "please turn off", "please power down", "please terminate"]
-Wakeword = ["", "hey "]
+Wakeword = ["spite", "hey spite"]
 
 #Phrases - 1 phrase provided by human, the rest provided by ChatGPT
 openanime = ["I hope you enjoy your anime!", "May you have a delightful time watching your anime!", "Wishing you a wonderful experience with your anime!", "I hope your anime brings you immense enjoyment!", "May your anime viewing be filled with joy and satisfaction!"]
