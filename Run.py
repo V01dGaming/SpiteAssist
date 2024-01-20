@@ -5,7 +5,17 @@ import secrets as sec
 import os
 import sys
 import winsound
+import pyttsx3
 
+## Speech
+engine = pyttsx3.init()
+voices = engine.getProperty("voices")
+engine.setProperty("rate", 170)
+voice_id = "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\MSTTS_V110_enUS_EvaM"
+engine.setProperty("voice", voice_id)
+
+## Just phrases
+OpeningResponse = ["How's it going?", "How are things?", "What's up?", "How's life treating you?", "How's your day?", "What's new?", "How's everything?", "How are you feeling?", "How goes it?", "How's your day been?", "What's happening?", "How's your world?", "How's your day going so far?", "How are you today?", "How's your week been?", "How's your weekend going?", "How's your morning?", "How's your afternoon?", "How's your evening?", "How are you holding up?"]
 Steamoptions = ["open steam", "start steam", "run steam", "please open steam", "please start steam", "please run steam", "open steam please", "start steam please", "run steam please"]
 Discordoptions = ["open discord", "start discord", "run discord", "please open discord", "please start discord", "please run discord", "open discord please", "start discord please", "run discord please"]
 Restartoptions = ["restart", "please restart", "restart please"]
@@ -16,17 +26,18 @@ Nevermind = ["nevermind", "never mind"]
 Wakeword = ["zero", "hey zero"]
 
 #Phrases - 1 phrase provided by human, the rest provided by ChatGPT
-openanime = ["I hope you enjoy your anime!", "May you have a delightful time watching your anime!", "Wishing you a wonderful experience with your anime!", "I hope your anime brings you immense enjoyment!", "May your anime viewing be filled with joy and satisfaction!"]
-howmayihelp = ["What can I do for you?", "How may I assist you?", "How can I be of service?", "In what way can I help you?", "What do you need me to do?", "How may I be of assistance to you?", "Is there anything specific I can help you with?", "What is it that you require from me?", "How can I support you in your endeavors?", "Do you have any particular needs or requests that I can address?"]
-opengoogle = ["I hope you find what you are looking for!", "May your search yield the results you desire!", "Wishing you success in finding what you seek!", "Here's to discovering exactly what you're after!", "Sending positive vibes your way as you embark on your quest for what you need!"]
-shutdownpls = ["Goodbye, I hope to see you soon!", "Farewell, looking forward to our next encounter!", "Take care, I eagerly await our next meeting!", "Goodbye, hoping for a swift reunion!", "Until we meet again, I'll be anticipating our next rendezvous!"]
+openanime = ["I trust you're having a delightful time indulging in the world of anime.", "I hope your anime journey is filled with joy and wonder.", "Do you have any tech questions on your mind today?"]
+howmayihelp = ["How can I be of service to you today?", "How may I assist you with your queries today?", "Feel free to ask anything; I'm here to help."]
+opengoogle = ["May you discover what you seek on the vast expanse of the internet!",]
+shutdownpls = ["Farewell for now! I look forward to our future interactions.",]
+discordpls = ["Getting ready to dive into the world of Discord, I see!"]
+steampls = ["Launching Steam and ready for some gaming fun, are we?"]
+restartpls = ["Certainly, Zero is initiating a self-reboot. If you have any questions or need assistance once Zero is back online, please don't hesitate to ask.",]
 
 web.register("chrome", None, web.BackgroundBrowser("C:\Program Files\Google\Chrome\Application\chrome.exe"))
 
-def beep():
-    frequency = 2000
-    duration = 300
-    winsound.Beep(frequency, duration)
+def speak(txt):
+    pyttsx3.speak(txt)
 
 def clr1():
     if(os.name == 'posix'):
@@ -35,7 +46,7 @@ def clr1():
         os.system('cls')
 
 def clr():
-    os.execl(sys.executable, sys.executable, *sys.argv)
+    os.execv(sys.executable, ["python"] + sys.argv)
     exit()
 
 def speech_recognition1():
@@ -48,13 +59,12 @@ def speech_recognition1():
         try:
             txt1 = (r.recognize_google(audio)).lower()
             if txt1 in Wakeword:
-                print("Wake word detected: ", txt1)
+                speak("Wake word detected")
                 t.sleep(1)
-                beep()
                 speech_recognition2()
         except sr.UnknownValueError:
-            print("Unable to understand speech")
-            t.sleep(2)
+        #    speak("Unable to understand speech")
+        #    t.sleep(2)
             clr()
         except sr.RequestError as e:
             print("Error:", e)
@@ -66,56 +76,61 @@ def speech_recognition2():
     with sr.Microphone() as source:
         P=(sec.choice(howmayihelp))
         print("Listening...")
-        print(P)
+        speak(P)
         r.adjust_for_ambient_noise(source)
         audio = r.listen(source)
         try:
             txt = (r.recognize_google(audio)).lower()
-            print("You said: ", txt)
             if txt in Internetoptions:
                 P=(sec.choice(opengoogle))
-                print("Opening Chrome... ")
-                print(P)
+                speak("Opening Chrome... ")
+                t.sleep(1)
+                speak(P)
                 web.get("chrome").open("https://www.google.com/")
                 t.sleep(2)
                 clr()
             elif txt in Steamoptions:
-                print("Opening Steam...")
+                speak("Opening Steam...")
                 os.system("start Steam")
                 t.sleep(2)
                 clr()
             elif txt in Crunchyrolloptions:
                 P=(sec.choice(openanime))
-                print("Opening Crunchyroll...")
-                print(P)
+                speak("Opening Crunchy roll...")
+                t.sleep(1)
+                speak(P)
                 web.get("chrome").open("https://www.crunchyroll.com/")
                 t.sleep(2)
                 clr()
             elif txt in Discordoptions:
-                print("Opening Discord...")
+                speak("Opening Discord...")
                 os.system("start Discord")
                 t.sleep(2)
                 clr()
             elif txt in Restartoptions:
-                print("restarting...")
+                speak("restarting...")
                 clr()
             elif txt in Shutdownoptions:
                 P=(sec.choice(shutdownpls))
-                print("Shuting down...")
-                print(P)
+                speak("Shutting down...")
+                t.sleep(1)
+                speak(P)
                 t.sleep(2)
                 quit()
             elif txt in Nevermind:
                 t.sleep(2)
                 clr()
         except sr.UnknownValueError:
-            print("Unable to understand speech")
-            t.sleep(2)
+        #    speak("Unable to understand speech")
+        #    t.sleep(1)
             clr()
         except sr.RequestError as e:
             print("Error:", e)
         clr()
         speech_recognition1()
 
-os.system("title SpiteAssist")
+os.system("title Zer0")
+#P=(sec.choice(OpeningResponse))
+#print(P)
+#speak(P)
 speech_recognition1()
