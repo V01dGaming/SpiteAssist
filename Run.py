@@ -11,7 +11,7 @@ import pyttsx3
 engine = pyttsx3.init()
 voices = engine.getProperty("voices")
 engine.setProperty("rate", 170)
-voice_id = "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\MSTTS_V110_enUS_EvaM"
+voice_id = "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_ZIRA_11.0"
 engine.setProperty("voice", voice_id)
 
 ## Just phrases
